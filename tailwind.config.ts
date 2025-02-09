@@ -9,8 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: '#FFFFFF',    // Main background color
+        surface: '#F8F9FA',      // Secondary background (cards, sections)
+        primary: '#22C55E',      // Primary action color (buttons, links)
+        accent: '#F97316',       // Accent color (highlights, icons)
+        text: {
+          primary: '#1F2937',    // Main text color
+          secondary: '#6B7280',  // Secondary text color
+        }
       },
     },
   },
