@@ -5,6 +5,7 @@ import { CustomImage } from '../components/common/CoustomeImage';
 import { mealApi } from '@/api/home';
 import { MealCard } from '@/components/common/MealCard';
 import Link from 'next/link';
+import RandomRecipeButton from '@/components/common/randombutton';
 
 async function getHomePageData() {
   const [
@@ -44,10 +45,10 @@ export default async function HomePage() {
     {/* Hero Section */}
     <section className="bg-surface py-16">
       <div className="container mx-auto px-4">
-        <h1 className="text-5xl font-bold text-primary text-center mb-8 animate-fade-in">
+        <h1 className="md:text-5xl text-3xl font-bold text-primary text-center mb-3 animate-fade-in">
           Discover Delicious Recipes
         </h1>
-        <p className="text-text-secondary text-center max-w-2xl mx-auto">
+        <p className="text-text-secondary text-center text-lg md:max-w-2xl mx-auto">
           Explore thousands of recipes from around the world
         </p>
       </div>
@@ -87,7 +88,7 @@ export default async function HomePage() {
         <h2 className="text-3xl font-semibold text-text-primary mb-8">
           Browse Categories
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {categories.map((category:any) => (
             <MealCard key={category.idCategory} meal={category} cate={false} category={category.strCategory} />
           ))}
@@ -141,6 +142,9 @@ export default async function HomePage() {
         </HorizontalScroll>
       </div>
     </section>
+    <div className="fixed bottom-4 right-[30vw] z-50 md:hidden">
+    <RandomRecipeButton />
+    </div>
   </main>
   );
 }

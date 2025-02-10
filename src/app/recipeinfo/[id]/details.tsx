@@ -36,6 +36,7 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
           <CustomImage
             src={recipe.strMealThumb}
             alt={recipe.strMeal}
+          
             className="w-full h-full"
           />
         </div>

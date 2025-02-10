@@ -1,11 +1,11 @@
 'use client'
-
 import { useState, useEffect } from 'react';
 
 interface CustomImageProps {
   src: string;
   alt: string;
   className?: string;
+  loadingGif?: string;
   placeholderColor?: string;
 }
 
@@ -13,6 +13,7 @@ export function CustomImage({
   src,
   alt,
   className = "",
+  loadingGif = "/images/load.gif", // Default loading GIF
   placeholderColor = "#1a1a1a"
 }: CustomImageProps) {
   const [isLoading, setIsLoading] = useState(true);
@@ -48,21 +49,22 @@ export function CustomImage({
 
   return (
     <div className={`relative ${className}`}>
-      {/* Placeholder / Skeleton Loader */}
+      {/* Loading GIF */}
       {isLoading && (
-        <div 
-          className="absolute inset-0"
-          style={{ 
-            backgroundColor: placeholderColor,
-            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-          }}
-        />
+        // <div className=" inset-0 flex items-center justify-center">
+          <img 
+            src={'images/loading_gif.jpg'} 
+            alt="Loading..." 
+            className={`w-full h-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          />
+        // </div>
       )}
 
       {/* Regular Image Tag */}
       {(imgSrc || error) && (
         <img
-          src={error ? '/fallback-image.jpg' : imgSrc}
+          src={error ? 'images/loading_gif.jpg' : imgSrc}
           alt={alt}
           className={`w-full h-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
           style={{ transition: 'opacity 0.3s ease-in-out' }}

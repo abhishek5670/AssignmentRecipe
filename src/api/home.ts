@@ -56,6 +56,10 @@ export const mealApi = {
     const data = await apiCall(`${BASE_URL}/list.php`, { a: 'list' });
     return data.meals || [];
   },
+  randomMeals: async () => {
+    const data = await apiCall(`${BASE_URL}/random.php`);
+    return data.meals || [];
+  },
 
   getPopularIngredients: async () => {
     const data = await apiCall(`${BASE_URL}/list.php`, { i: 'list' });

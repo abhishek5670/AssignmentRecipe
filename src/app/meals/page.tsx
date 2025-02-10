@@ -1,21 +1,20 @@
 'use client';
 import React, { useState, useEffect, Suspense } from 'react';
-import { AlertCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { mealApi } from '@/api/home';
 import { MealCard } from '@/components/common/MealCard';
 import Pagination from '@/components/common/Pagination';
+import RecipeNotFound from '../recipeinfo/[id]/recipeerror';
 
-// Separate component that uses useSearchParams
 const FilteredMealsContent = () => {
   const searchParams = useSearchParams();
-  const filterInfo = {
-    type: searchParams.get('type'),
-    value: searchParams.get('value'),
-  };
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterInfo, setFilterInfo] = useState({
+    type: '',
+    value: ''
+  });
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,18 +42,21 @@ const FilteredMealsContent = () => {
 
       try {
         let result = [];
+        let type = '';
+        let value = '';
+
         if (ingredient) {
           result = await mealApi.getMealsByIngredient(ingredient);
-          filterInfo.type = 'ingredient';
-          filterInfo.value = ingredient;
+          type = 'ingredient';
+          value = ingredient;
         } else if (category) {
           result = await mealApi.getMealsByCategory(category);
-          filterInfo.type = 'category';
-          filterInfo.value = category;
+          type = 'category';
+          value = category;
         } else if (area) {
           result = await mealApi.getMealsByArea(area);
-          filterInfo.type = 'area';
-          filterInfo.value = area;
+          type = 'area';
+          value = area;
         } else {
           throw new Error('No filter parameter provided');
         }
@@ -62,6 +64,8 @@ const FilteredMealsContent = () => {
         if (!result || result.length === 0) {
           throw new Error('No meals found');
         }
+        
+        setFilterInfo({ type, value });
         setMeals(result);
       } catch (err: any) {
         setError(err.message);
@@ -82,21 +86,7 @@ const FilteredMealsContent = () => {
   }
 
   if (error) {
-    return (
-      <div className="container mx-auto p-4">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start space-x-2">
-          <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
-          <div>
-            <h3 className="text-red-800 font-semibold">Error</h3>
-            <p className="text-red-700">
-              {error === 'No meals found' 
-                ? `No meals found for ${filterInfo.type}: ${filterInfo.value}`
-                : 'Something went wrong. Please try again later.'}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    return <RecipeNotFound />;
   }
 
   return (
@@ -125,7 +115,6 @@ const FilteredMealsContent = () => {
   );
 };
 
-// Main component wrapped with Suspense
 const FilteredMealsScreen = () => {
   return (
     <Suspense fallback={

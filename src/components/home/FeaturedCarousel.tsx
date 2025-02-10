@@ -5,6 +5,7 @@ import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+import { CustomImage } from '../common/CoustomeImage';
 
 interface FeaturedCarouselProps {
   meals: Array<{
@@ -52,14 +53,16 @@ export function FeaturedCarousel({ meals }: FeaturedCarouselProps) {
         {extendedMeals.map((meal, index) => (
           <SwiperSlide
             key={`${meal.idMeal}-${index}`}
-            className="h-full rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+            className="h-full rounded-lg overflow-hidden  transition-all duration-300 transform "
           >
             <Link href={`recipeinfo/${meal.idMeal}`} className="relative block w-full h-full group">
-              <img
-                src={meal.strMealThumb}
-                alt={meal.strMeal}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
+            <CustomImage
+                    src={meal.strMealThumb }
+                    alt={meal.strMeal}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    placeholderColor="bg-surface"
+                  />
+           
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
                 <h3 className="text-white font-semibold text-lg truncate">
                   {meal.strMeal}

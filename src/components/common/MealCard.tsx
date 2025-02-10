@@ -24,6 +24,7 @@ export function MealCard({ meal, cate = true, category }: MealCardProps) {
       <CustomImage
         src={meal.strMealThumb || meal.strCategoryThumb || ""}
         alt={meal.strMeal}
+        
         className="w-full h-full transition-transform duration-300 hover:scale-105"
         placeholderColor="bg-surface"
       />
