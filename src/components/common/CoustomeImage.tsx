@@ -17,7 +17,7 @@ export function CustomImage({
 }: CustomImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [imgSrc, setImgSrc] = useState<string>('');
+  const [imgSrc, setImgSrc] = useState('');
 
   useEffect(() => {
     // Reset states when src changes
@@ -47,26 +47,25 @@ export function CustomImage({
   }, [src]);
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative ${className}`}>
       {/* Placeholder / Skeleton Loader */}
       {isLoading && (
-        <img
-          src={'/images/loading_gif.jpg' }
-          alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoading ? 'opacity-0' : 'opacity-100'
-          }`}
+        <div 
+          className="absolute inset-0"
+          style={{ 
+            backgroundColor: placeholderColor,
+            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          }}
         />
       )}
 
       {/* Regular Image Tag */}
       {(imgSrc || error) && (
         <img
-          src={error ? '/images/loading_gif.jpg' : imgSrc}
+          src={error ? '/fallback-image.jpg' : imgSrc}
           alt={alt}
-          className={`w-full h-full object-cover transition-opacity rounded-md duration-300 ${
-            isLoading ? 'opacity-0' : 'opacity-100'
-          }`}
+          className={`w-full h-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+          style={{ transition: 'opacity 0.3s ease-in-out' }}
         />
       )}
     </div>
