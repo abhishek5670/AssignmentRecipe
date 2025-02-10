@@ -1,17 +1,21 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { mealApi } from '@/api/home';
 import { MealCard } from '@/components/common/MealCard';
 import Pagination from '@/components/common/Pagination';
 
-const FilteredMealsScreen = () => {
+// Separate component that uses useSearchParams
+const FilteredMealsContent = () => {
   const searchParams = useSearchParams();
+  const filterInfo = {
+    type: searchParams.get('type'),
+    value: searchParams.get('value'),
+  };
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterInfo, setFilterInfo] = useState({ type: '', value: '' });
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,13 +45,16 @@ const FilteredMealsScreen = () => {
         let result = [];
         if (ingredient) {
           result = await mealApi.getMealsByIngredient(ingredient);
-          setFilterInfo({ type: 'ingredient', value: ingredient });
+          filterInfo.type = 'ingredient';
+          filterInfo.value = ingredient;
         } else if (category) {
           result = await mealApi.getMealsByCategory(category);
-          setFilterInfo({ type: 'category', value: category });
+          filterInfo.type = 'category';
+          filterInfo.value = category;
         } else if (area) {
           result = await mealApi.getMealsByArea(area);
-          setFilterInfo({ type: 'area', value: area });
+          filterInfo.type = 'area';
+          filterInfo.value = area;
         } else {
           throw new Error('No filter parameter provided');
         }
@@ -115,6 +122,19 @@ const FilteredMealsScreen = () => {
         onPageChange={handlePageChange}
       />
     </div>
+  );
+};
+
+// Main component wrapped with Suspense
+const FilteredMealsScreen = () => {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <FilteredMealsContent />
+    </Suspense>
   );
 };
 

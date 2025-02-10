@@ -4,35 +4,37 @@ import { notFound } from 'next/navigation';
 import { mealApi } from '@/api/home';
 import { RecipeDetailsSkeleton } from '../skeleton';
 import { RecipeDetails } from './details';
-import { RecipeErrorState } from '@/app/error/page';
+import RecipeNotFound from './recipeerror';
 
 
 interface RecipePageProps {
-  params: {
-    id: string;
-  };
-}
-
-async function getRecipeData(id: string) {
-  const meal = await mealApi.getMealById(id);
-  if (!meal) {
-    notFound();
+    params: Promise<{
+      id: string;
+    }>;
   }
-  return meal;
-}
-
+  
+  async function getRecipeData(id: string) {
+    const meal = await mealApi.getMealById(id);
+    if (!meal) {
+      // handle meal not found
+    }
+    return meal;
+  }
 export default async function RecipePage({ params }: RecipePageProps) {
-  const recipe = await getRecipeData(params.id);
+  const resolvedParams = await params;
+  const recipe = await getRecipeData(resolvedParams.id);
+  if(!recipe){
+    return <RecipeNotFound />
+  }
 
   return (
     <main className="min-h-screen bg-background pb-12">
-      {/* <ErrorBoundary 
-        fallback={<RecipeErrorState />}
-      > */}
+     
+     
         <Suspense fallback={<RecipeDetailsSkeleton />}>
           <RecipeDetails recipe={recipe} />
         </Suspense>
-      {/* </ErrorBoundary> */}
+      
     </main>
   );
 }
