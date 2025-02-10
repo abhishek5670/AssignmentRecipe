@@ -22,11 +22,10 @@ export function MealCard({ meal, cate = true, category }: MealCardProps) {
   >
     <div className="relative aspect-w-16 aspect-h-9 overflow-hidden">
       <CustomImage
-        src={meal.strMealThumb || meal.strCategoryThumb || ""}
-        alt={meal.strMeal}
-        
-        className="w-full h-full transition-transform duration-300 hover:scale-105"
-        placeholderColor="bg-surface"
+       src={meal.strMealThumb || meal.strCategoryThumb || ""}
+       alt={meal.strMeal}
+       className="w-full h-full transition-transform duration-300 hover:scale-105"
+       placeholderColor="bg-surface"
       />
       {/* <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300" /> */}
     </div>

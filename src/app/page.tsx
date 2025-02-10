@@ -142,7 +142,7 @@ export default async function HomePage() {
         </HorizontalScroll>
       </div>
     </section>
-    <div className="fixed bottom-4 right-[30vw] z-50 md:hidden">
+    <div className="fixed bottom-4 right-[25vw] z-50 md:hidden">
     <RandomRecipeButton />
     </div>
   </main>

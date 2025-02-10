@@ -1,29 +1,37 @@
-'use client'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface CustomImageProps {
   src: string;
   alt: string;
   className?: string;
-  loadingGif?: string;
+  loadingPlaceholder?: string;
   placeholderColor?: string;
+  fallbackSrc?: string;
 }
 
 export function CustomImage({
   src,
   alt,
   className = "",
-  loadingGif = "/images/load.gif", // Default loading GIF
-  placeholderColor = "#1a1a1a"
+  loadingPlaceholder = "/images/placeholder.svg", // Default loading placeholder
+  placeholderColor = "bg-gray-200", // Tailwind background color for placeholder
+  fallbackSrc = "/images/fallback.png" // Fallback image if src fails
 }: CustomImageProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [imgSrc, setImgSrc] = useState('');
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     // Reset states when src changes
     setIsLoading(true);
-    setError(false);
+    setHasError(false);
+
+    // If no src, set error state
+    if (!src) {
+      setHasError(true);
+      setIsLoading(false);
+      return;
+    }
 
     // Create a new image object
     const img = new Image();
@@ -36,7 +44,7 @@ export function CustomImage({
 
     img.onerror = () => {
       console.error('Error loading image:', src);
-      setError(true);
+      setHasError(true);
       setIsLoading(false);
     };
 
@@ -47,27 +55,33 @@ export function CustomImage({
     };
   }, [src]);
 
+  // Determine which image to show
+  const displaySrc = hasError ? 'images/loading_gif.jpg' : imgSrc;
+
   return (
-    <div className={`relative ${className}`}>
-      {/* Loading GIF */}
+    <div className={`relative overflow-hidden ${className}`}>
+      {/* Loading Placeholder */}
       {isLoading && (
-        // <div className=" inset-0 flex items-center justify-center">
-          <img 
-            src={'images/loading_gif.jpg'} 
-            alt="Loading..." 
-            className={`w-full h-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ transition: 'opacity 0.3s ease-in-out' }}
-          />
-        // </div>
+        <div 
+          className={`absolute inset-0 ${placeholderColor} animate-pulse`} 
+          aria-label="Loading"
+        />
       )}
 
-      {/* Regular Image Tag */}
-      {(imgSrc || error) && (
+      {/* Image */}
+      {!isLoading && (
         <img
-          src={error ? 'images/loading_gif.jpg' : imgSrc}
+          src={displaySrc}
           alt={alt}
-          className={`w-full h-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-          style={{ transition: 'opacity 0.3s ease-in-out' }}
+          className={`
+            w-full 
+            h-full 
+            object-cover 
+            transition-opacity 
+            duration-300 
+            ${hasError ? 'opacity-50' : 'opacity-100'}
+          `}
+          onError={() => setHasError(true)}
         />
       )}
     </div>
