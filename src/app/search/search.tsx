@@ -77,7 +77,7 @@ export default function SearchContent() {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search recipes..."
-              className="w-full px-4 py-3 pl-12 rounded-lg bg-surface border border-text-secondary/20 focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-4 py-3 pl-12 text-text-primary rounded-lg bg-surface border border-text-secondary/20 focus:outline-none focus:border-primary transition-colors"
               autoFocus
             />
             {isLoading ? (
@@ -98,7 +98,7 @@ export default function SearchContent() {
             </div>
           ) : meals.length > 0 ? (
             <>
-              <h2 className="text-lg font-semibold mb-6">
+              <h2 className="text-lg font-semibold text-text-primary mb-6">
                 Found {meals.length} recipes
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

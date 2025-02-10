@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 
 interface CustomImageProps {
@@ -13,9 +14,9 @@ export function CustomImage({
   src,
   alt,
   className = "",
-  loadingPlaceholder = "/images/placeholder.svg", // Default loading placeholder
+  // Default loading placeholder
   placeholderColor = "bg-gray-200", // Tailwind background color for placeholder
-  fallbackSrc = "/images/fallback.png" // Fallback image if src fails
+  // Fallback image if src fails
 }: CustomImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [imgSrc, setImgSrc] = useState('');
@@ -56,7 +57,7 @@ export function CustomImage({
   }, [src]);
 
   // Determine which image to show
-  const displaySrc = hasError ? 'images/loading_gif.jpg' : imgSrc;
+  const displaySrc = isLoading||hasError ? 'images/loading_gif.jpg' : imgSrc;
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -69,7 +70,7 @@ export function CustomImage({
       )}
 
       {/* Image */}
-      {!isLoading && (
+      
         <img
           src={displaySrc}
           alt={alt}
@@ -83,7 +84,7 @@ export function CustomImage({
           `}
           onError={() => setHasError(true)}
         />
-      )}
+    
     </div>
   );
 }

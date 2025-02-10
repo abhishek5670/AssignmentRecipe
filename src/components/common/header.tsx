@@ -75,7 +75,7 @@ export function Header() {
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="Search recipes..."
-                className="w-full px-4 py-2 pl-10 rounded-full bg-surface/50 border border-text-secondary/20 focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-4 py-2 text-text-primary pl-10 rounded-full bg-surface/50 border border-text-secondary/20 focus:outline-none focus:border-primary transition-colors"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary w-4 h-4" />
             </form>
@@ -102,7 +102,7 @@ export function Header() {
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     placeholder="Search recipes..."
-                    className="w-full px-4 py-2 pl-10 rounded-full bg-surface/50 border border-text-secondary/20 focus:outline-none focus:border-primary"
+                    className="w-full px-4 py-2 pl-10 text-text-primary rounded-full bg-surface/50 border border-text-secondary/20 focus:outline-none focus:border-primary"
                   />
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary w-4 h-4" />
                 </div>

@@ -3,6 +3,7 @@ import SearchContent from './search';
 
 export default function SearchPage() {
   return (
+    <main className="min-h-screen bg-background ">
     <Suspense fallback={
       <div className="min-h-screen bg-background pt-20">
         <div className="container mx-auto px-4">
@@ -14,5 +15,6 @@ export default function SearchPage() {
     }>
       <SearchContent />
     </Suspense>
+    </main>
   );
 }
