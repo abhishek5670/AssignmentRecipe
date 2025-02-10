@@ -6,14 +6,17 @@ export async function apiCall(endpoint: string, params: any = {}) {
     
     const url = queryString ? `${endpoint}?${queryString}` : endpoint;
     
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      cache: 'default'
-    });
+    const response = await fetch(url, 
+    //   {
+    //   method: 'GET',
+
+    //   // headers: {
+    //   //   'Accept': 'application/json',
+    //   //   'Content-Type': 'application/json',
+    //   // },
+    //   // cache: 'default'
+    // }
+  );
     
     const data = await response.json();
     return data;
